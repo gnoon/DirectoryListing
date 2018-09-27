@@ -18,6 +18,9 @@ namespace DirectoryListing
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("favicon.ico");
             routes.IgnoreRoute("_static/{*pathInfo}");
+            routes.IgnoreRoute("Scripts/{*pathInfo}");
+
+            routes.RouteExistingFiles = false;
 
             routes.MapRoute(
                 name: "Zip",

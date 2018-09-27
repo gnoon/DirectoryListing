@@ -44,6 +44,12 @@ namespace DirectoryListing.Models
             private set;
         }
 
+        public string Fullpath
+        {
+            get;
+            private set;
+        }
+
         #endregion Public Properties
 
         #endregion Properties
@@ -56,6 +62,7 @@ namespace DirectoryListing.Models
             Name = HttpUtility.HtmlEncode(name);
             Size = BytesToSize(length);
             Icon = IconFromFilePath(fullName);
+            Fullpath = fullName;
         }
 
         #endregion Constructors

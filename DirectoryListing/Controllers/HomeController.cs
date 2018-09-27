@@ -34,10 +34,17 @@ namespace DirectoryListing.Controllers
                 return new FilePathResult(fullPath, MimeMapping.GetMimeMapping(fullPath));
             }
             if (!Directory.Exists(fullPath)) {
-                return HttpNotFound();
+                //return HttpNotFound();
             }
 
-            return View(new DirectoryListing.Models.Directory(rootDirectory, fullPath));
+            try
+            {
+                return View(new DirectoryListing.Models.Directory(rootDirectory, fullPath));
+            }
+            catch(Exception e)
+            {
+                return View("Error", e);
+            }
         }
 
         public ActionResult Zip(string path)

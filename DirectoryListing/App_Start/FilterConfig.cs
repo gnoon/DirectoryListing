@@ -11,7 +11,7 @@ namespace DirectoryListing
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new HandleErrorAttribute());    
         }
 
         #endregion Public Static Methods

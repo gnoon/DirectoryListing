@@ -2,34 +2,64 @@
 @{
     ViewBag.Title = string.Join("/", Model.Ancestors.Select(x => x.Name));
 }
-@{ var last = Model.Ancestors.LastOrDefault(); }
-@if (last != null) {
-<a class="download" href="/_zip/@last.Url"><img src="data:image/png;base64,@DirectoryListing.Models.Info.ZipIcon" />Download</a>
-<ol><li><a href="/">/</a></li>@foreach (var ancestor in Model.Ancestors.Take(Model.Ancestors.Length - 1)) {<li><a href="/@ancestor.Url">@ancestor.Name/</a></li>}<li class="last">@last.Name</li></ol>
-} else {
-<a class="download" href="/_zip/"><img src="data:image/png;base64,@DirectoryListing.Models.Info.ZipIcon" />Download</a>
-<ol><li class="last">/</li></ol>
+@section Style{
+    <style type="text/css">
+        .filesystembox {
+            height: 350px
+        }
+    </style>
 }
-<ul>
-@foreach (var directory in Model.Directories) {
-    <li>
-        <a class="download" href="/_zip/@directory.Url">
-            <img src="data:image/png;base64,@DirectoryListing.Models.Info.ZipIcon" />
-            Download
-            </a>
-        <a href="/@directory.Url">
-            <img src="data:image/png;base64,@directory.Icon" />
-            <span class="file-name">@directory.Name</span>
-            </a>
-        </li>
+@section Header{
+   <div style="margin-left:10px;"><h3><a href="@Url.Content("~")"><i class="fa fa-home fa-lg"></i></a>
+   @for(int i=0; i<Model.Ancestors.Length; i++)
+   {
+       <span> / </span><a href="@Url.Content("~/"+Model.Ancestors[i].Url)">@Model.Ancestors[i].Name</a>
+   }
+       </h3></div>
 }
-@foreach (var file in Model.Files) {
-    <li>
-        <a href="/@file.Url">
-            <img src="data:image/png;base64,@file.Icon" />
-            <span class="file-size">@file.Size</span>
-            <span class="file-name">@file.Name</span>
+@foreach (var directory in Model.Directories)
+{
+    var iconB64 = DirectoryListing.Models.WindowsThumbnailProvider.GetThumbnailBase64(directory.Fullpath);
+    <div class="col-md-2 filesystembox">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="data:image/png;base64,@iconB64" style="width:180px;" />
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Content("~/"+directory.Url)" alt="@directory.Name">
+                <div class="panel-footer">
+                    <span class="pull-left">@directory.Name</span>
+                    <!--<span class="pull-right"><i class="fa fa-arrow-circle-right fa-lg"></i></span>-->
+                    <div class="clearfix"></div>
+                </div>
             </a>
-        </li>
+        </div>
+    </div>
 }
-    </ul>
+@foreach (var file in Model.Files)
+{
+    var iconB64 = DirectoryListing.Models.WindowsThumbnailProvider.GetThumbnailBase64(file.Fullpath);
+    <div class="col-md-2 filesystembox">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="data:image/png;base64,@iconB64" style="width:180px;"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9 text-right">
+                        <div>@file.Size</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <span class="pull-left">@file.Name</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+}
