@@ -14,3 +14,7 @@ The following files can be updated to change the look of the directory listing b
 - `Views/Home/Index.cshtml`
 - `_static/Site.scss`
 - `_static/logo-short.png`
+
+# Screenshot
+
+![image](https://user-images.githubusercontent.com/1418688/46124094-39edf800-c24c-11e8-8e79-7823e78b9abb.png)
